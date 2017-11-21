@@ -46,21 +46,35 @@ cor_data = json.load(open('./data/cor_systems.json'))				# load CoR data from JS
 losp_data = json.load(open('./data/losp_systems.json'))				# load LOSP data from JSON
 
 cor_systems = cor_data['docs']
+losp_systems = losp_data['docs']
 
 # ------------------- Generate coordinates list -------------------
 c = []
 for coords in enumerate((sys['x'],sys['y'],sys['z']) for sys in cor_systems):
 	c.append(coords[1])
 
+c2 = []
+for coords in enumerate((sys['x'],sys['y'],sys['z']) for sys in losp_systems):
+	c2.append(coords[1])
+
 cor_c = []
 for sys_c in c:
-	new_c = translate(sys_c[0],sys_c[1],sys_c[2])					# Run coordinates translation
+	new_c = translate(sys_c[0],sys_c[1],sys_c[2])					# Run COR coordinates translation
 	cor_c.append(new_c)
+
+losp_c = []
+for sys_c in c2:
+	new_c2 = translate(sys_c[0],sys_c[1],sys_c[2])					# Run LOSP coordinates translation
+	losp_c.append(new_c2)
 
 # --------------------- Generate label lists ----------------------
 cor_sysn = []														# COR system names
 for names in enumerate(sys['name'] for sys in cor_systems):
 	cor_sysn.append(names[1])
+
+losp_sysn = []
+for names in enumerate(sys['name'] for sys in losp_systems):		# LOSP system names
+	losp_sysn.append(names[1])
 
 cor_sysst = []														# COR system states
 for states in enumerate(sys['state'] for sys in cor_systems):
@@ -73,14 +87,20 @@ for factionlist in enumerate(sys['minor_faction_presences'] for sys in cor_syste
 			cor_sysinf.append(f['influence'])
 
 # ----------------- Generate systems point cloud ------------------
-points(pos=cor_c, size=10, color=color.red)							# Define points
+points(pos=cor_c, size=10, color=color.red)							# Define COR points
+points(pos=losp_c, size=10, color=color.blue)						# Define LOSP points
+
 for position, name, state, inf in zip(cor_c, cor_sysn, cor_sysst, cor_sysinf):
-	label(pos=position, text=name.upper(),xoffset=25,yoffset=20,
-		  height=12,font='sans',box=False, opacity=0.5)				# Generate name label
+	label(pos=position,text=name.upper(),xoffset=25,yoffset=20,
+		  height=12,font='sans',box=False,opacity=0.5)				# Generate name label
 	label(pos=position, text=state,xoffset=25,yoffset=0,
-		  height=12,font='sans',box=False, line=False, opacity=0.5)	# Generate state label
+		  height=12,font='sans',box=False,line=False,opacity=0.5)	# Generate state label
 	label(pos=position, text=str(inf),xoffset=25,yoffset=-20,
-		  height=12,font='sans',box=False, line=False, opacity=0.5)	# Generate influence label
+		  height=12,font='sans',box=False,line=False,opacity=0.5)	# Generate influence label
+
+for position, name in zip(losp_c, losp_sysn):
+	label(pos=position,text=name.upper(),xoffset=25,yoffset=20,
+		  height=12,font='sans',box=False,opacity=0.5)
 
 # Keep display active for future development
 while True:

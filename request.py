@@ -1,4 +1,4 @@
-# HTTP requests functions to retrieve BGS data frol CoR and LOSP factions
+# HTTP requests functions to retrieve BGS data for CoR and LOSP factions
 # Using EliteBGS API
 
 import requests

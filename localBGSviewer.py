@@ -24,8 +24,9 @@ with open('./data/losp_systems.json',"w") as f:
 	f.write(r.losp_request())
 
 # --------------------- Window management area ---------------------
-w = window(menus=True,title='Local BGS Viewer '+version,x=0,y=0,width=800,
-	height=800,style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX)	# Create window
+w = window(menus=True,title='Local BGS Viewer '+version,x=0,y=0,
+		   width=800,height=800,
+		   style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX)		# Create window
 
 starmap = display(window=w,x=0,y=0,range=2,width=800,height=800)	# Define 3D display
 
